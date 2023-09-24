@@ -1,0 +1,29 @@
+{
+    "name": "fortles/laravel-node-editor",
+    "version": "1.0.0",
+    "type": "library",
+    "license": "GNU",
+    "autoload": {
+        "psr-4": {
+            "Fortles\\LaravelNodeEditor\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Iván Barták",
+            "email": "ivan@fortles.com"
+        }
+    ],
+    "require": {
+        "fortles/node-editor": "^1.0",
+        "illuminate/database": "^10.0",
+        "illuminate/support": "^10.0"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Fortles\\LaravelNodeEditor\\NodeEditorServiceProvider"
+            ]
+        }
+    }
+}
