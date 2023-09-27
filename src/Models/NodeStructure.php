@@ -45,6 +45,10 @@ class NodeStructure extends Model
         }
     }
 
+    public function test(){
+        $this->environment->test();
+    }
+
     protected function createEnvironment(): NodeEnvironment{
         $types = config("fortles-node-editor.types");
         if(empty($types)){

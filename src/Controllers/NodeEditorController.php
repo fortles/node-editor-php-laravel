@@ -3,20 +3,34 @@ namespace Fortles\LaravelNodeEditor\Controllers;
 
 use Fortles\LaravelNodeEditor\Models\NodeStructure;
 use Illuminate\Routing\Controller;
+use Illuminate\Http\Request;
 
 class NodeEditorController extends Controller
 {
-    function getStructure(NodeStructure $node){
-        $data = $node->environment->load();
+    function getStructure($id){
+        $nodeStructure = NodeStructure::where('id', $id)->firstOrFail();
+        $data = $nodeStructure->environment->load();
         return response()->json($data);
     }
 
-    function saveNodeStructure(){
-
+    function saveStructure(Request $request, $id){
+        $nodeStructure = NodeStructure::where('id', $id)->firstOrFail();
+        $nodeStructure->data = $request->getContent();
+        $nodeStructure->save();
     }
     
-    function getType(NodeStructure $node, int $id, string $type){
-        $data = $node->environment->getType($type);
+    function getType(NodeStructure $nodeStructure, $id, string $type){
+        $data = $nodeStructure->environment->getType($type);
         return response()->json($data);
+    }
+
+    function run($id){
+        $nodeStructure = NodeStructure::where('id', $id)->firstOrFail();
+        $nodeStructure->run(false);
+    }
+
+    function test($id){
+        $nodeStructure = NodeStructure::where('id', $id)->firstOrFail();
+        $nodeStructure->test();
     }
 }
