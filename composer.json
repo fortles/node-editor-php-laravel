@@ -15,7 +15,7 @@
         }
     ],
     "require": {
-        "fortles/node-editor": "^1.0",
+        "fortles/node-editor": "dev-main",
         "illuminate/database": "^10.0",
         "illuminate/support": "^10.0"
     },
