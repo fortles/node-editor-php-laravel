@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "type": "library",
     "license": "GNU",
-    "minimum-stability": "dev",
+    "minimum-stability": "dev-main",
     "autoload": {
         "psr-4": {
             "Fortles\\LaravelNodeEditor\\": "src/"
