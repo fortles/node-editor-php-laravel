@@ -24,7 +24,7 @@ trait HasNodeStructure
      */
     public function nodeStructure()
     {
-        return $this->morphsOne(NodeStructure::class);
+        return $this->morphOne(NodeStructure::class, 'host');
     }
 
     /**
@@ -47,5 +47,10 @@ trait HasNodeStructure
     public function runNode(string $name = null)
     {
         return $this->nodeStructure->run();
+    }
+
+    public function getNodeStructureIdAttribute(): ?int
+    {
+        return $this->nodeStructure->id ?? null;
     }
 }
