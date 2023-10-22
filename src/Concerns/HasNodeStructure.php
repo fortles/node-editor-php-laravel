@@ -12,10 +12,9 @@ trait HasNodeStructure
 {
     protected static function bootHasNodeStructure()
     {
-        static::creating(function ($model) {
+        static::created(function ($model) {
             if (!$model->nodeStructure) {
-                $nodeStructure = $model->nodeStructure()->create([]);
-                $model->fortles_node_structure_id = $nodeStructure->id;
+                $model->nodeStructure()->create();
             }
         });
     }
@@ -25,7 +24,7 @@ trait HasNodeStructure
      */
     public function nodeStructure()
     {
-        return $this->belongsTo(NodeStructure::class);
+        return $this->morphsOne(NodeStructure::class);
     }
 
     /**

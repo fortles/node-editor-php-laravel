@@ -27,6 +27,10 @@ class NodeStructure extends Model
         return $this->hasMany(NodeLog::class, 'fortles_node_structure_id', 'id');
     }
 
+    public function host(){
+        return $this->morphTo();
+    }
+
     public function run($enableLog = true){
         if($enableLog){
             $log = NodeLog::create([
@@ -62,7 +66,10 @@ class NodeStructure extends Model
                 $this->data = $data;
                 $this->save();
             },
-            config("fortles-node-editor.types")
+            config("fortles-node-editor.types"),
+            [
+                'host' => $this->host
+            ]
         );
         return $environment;
     }
