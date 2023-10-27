@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('fortles_node_structures', function (Blueprint $table) {
             $table->id();
-            //The cennected entitypppn
             $table->morphs('host');
             $table->json('data')->nullable();
             $table->datetimes();

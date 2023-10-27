@@ -13,8 +13,8 @@ trait HasNodeStructure
     protected static function bootHasNodeStructure()
     {
         static::created(function ($model) {
-            if (!$model->nodeStructure) {
-                $model->nodeStructure()->create();
+            if (!$model->node_structure) {
+                $model->node_structure()->create();
             }
         });
     }
@@ -22,7 +22,7 @@ trait HasNodeStructure
     /**
      * Get the node structure associated with the model.
      */
-    public function nodeStructure()
+    public function node_structure()
     {
         return $this->morphOne(NodeStructure::class, 'host');
     }
@@ -35,7 +35,7 @@ trait HasNodeStructure
     public function getNodeEnvironmentAttribute(): NodeEnvironment
     {
         // Return the node environment, perhaps from the associated NodeStructure
-        return $this->nodeStructure->environment ?? null;
+        return $this->node_structure->environment ?? null;
     }
 
     /**
@@ -46,11 +46,13 @@ trait HasNodeStructure
      */
     public function runNode(string $name = null)
     {
-        return $this->nodeStructure->run();
+        return $this->node_structure->run();
     }
 
-    public function getNodeStructureIdAttribute(): ?int
-    {
-        return $this->nodeStructure->id ?? null;
+    /**
+     * Gets the node structure id
+     */
+    public function getNodeStructureIdAttribute(): int{
+        return $this->node_structure->id;
     }
 }
