@@ -19,7 +19,8 @@ class NodeEditorController extends Controller
         $nodeStructure->save();
     }
     
-    function getType(NodeStructure $nodeStructure, $id, string $type){
+    function getType($id, string $type){
+        $nodeStructure = NodeStructure::where('id', $id)->firstOrFail();
         $data = $nodeStructure->environment->getType($type);
         return response()->json($data);
     }

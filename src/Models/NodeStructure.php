@@ -2,6 +2,7 @@
 
 namespace Fortles\LaravelNodeEditor\Models;
 
+use Fortles\NodeEditor\Node\InputNode;
 use Fortles\NodeEditor\NodeEnvironment;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
@@ -54,9 +55,19 @@ class NodeStructure extends Model
     }
 
     protected function createEnvironment(): NodeEnvironment{
-        $types = config("fortles-node-editor.types");
+        $types = config('fortles-node-editor.types');
+        $customizationConfigKey = 'fortles-node-editor.customizations.' . $this->host_type;
+        $extraTypes = config($customizationConfigKey . '.types', []);
+        $types = array_filter(array_replace($types, $extraTypes));
+
+        $input = config($customizationConfigKey . '.input', []);
+
+        if($input){
+            $types[$input['name'] ?? 'Input'] = InputNode::class;
+        }
+
         if(empty($types)){
-            throw new \Exception("fortles-node-editor.types Config should not be empty!");
+            throw new \Exception('fortles-node-editor.types Config should not be empty!');
         }
         $environment = new NodeEnvironment(
             function(){
@@ -66,10 +77,11 @@ class NodeStructure extends Model
                 $this->data = $data;
                 $this->save();
             },
-            config("fortles-node-editor.types"),
+            $types,
             [
                 'host' => $this->host
-            ]
+            ],
+            $input['fields']
         );
         return $environment;
     }
