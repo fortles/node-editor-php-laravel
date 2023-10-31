@@ -17,6 +17,12 @@ trait HasNodeStructure
                 $model->node_structure()->create();
             }
         });
+
+        static::deleted(function ($model) {
+            if ($model->node_structure) {
+                $model->node_structure()->delete();
+            }
+        });
     }
 
     /**

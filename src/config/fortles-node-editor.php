@@ -4,13 +4,14 @@ return [
     'asset_route_prefix' => 'vendor/fortles/node-editor',
     'types' => [
         /** Global node types can be added here
-        * 'Fancy' => FancyNode::class
+        * FancyNode::class
+        * 'CustomName' => FancyNode::class
         */
     ],
     'extra_types' => [
         /** Custom node types for the given model can be added here
         * HostModel::class => [
-        *     'Extra' => ExtraNode::class
+        *     ExtraNode::class
         * ]
         */
     ]

@@ -54,10 +54,22 @@ class NodeStructure extends Model
         $this->environment->test();
     }
 
+    protected function prepareTypeConfig(array $types){
+        $result = [];
+        foreach($types as $key => $value){
+            if(is_int($key)){
+                $result[substr($value, strrpos($value, '\\') + 1, -strlen('Node'))] = $value;
+            }else{
+                $result[$key] = $value;
+            }
+        }
+        return $result;
+    }
+
     protected function createEnvironment(): NodeEnvironment{
-        $types = config('fortles-node-editor.types');
+        $types = $this->prepareTypeConfig(config('fortles-node-editor.types', []));
         $customizationConfigKey = 'fortles-node-editor.customizations.' . $this->host_type;
-        $extraTypes = config($customizationConfigKey . '.types', []);
+        $extraTypes = $this->prepareTypeConfig(config($customizationConfigKey . '.types', []));
         $types = array_filter(array_replace($types, $extraTypes));
 
         $input = config($customizationConfigKey . '.input', []);
@@ -81,7 +93,7 @@ class NodeStructure extends Model
             [
                 'host' => $this->host
             ],
-            $input['fields']
+            $input['fields'] ?? []
         );
         return $environment;
     }
