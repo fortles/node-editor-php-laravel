@@ -25,7 +25,7 @@ class NodeStructure extends Model
 
     public function logs()
     {
-        return $this->hasMany(NodeLog::class, 'fortles_node_structure_id', 'id');
+        return $this->hasMany(NodeLog::class, 'fortles_node_structure_id');
     }
 
     public function host(){
@@ -34,19 +34,27 @@ class NodeStructure extends Model
 
     public function run($enableLog = true){
         if($enableLog){
-            $log = NodeLog::create([
-                'fortles_node_structure_id' => $this->id,
-            ]);
-            try{
-                $this->environment->run();
-            } catch (\Exception $exception){
-                $log->error = $exception->getMessage();
-            }finally{
-                $log->ended_at = Carbon::now();
-                $log->save();
-            }
+            $this->log(fn($environment) => $environment->run());
         }else{
             $this->environment->run();
+        }
+    }
+
+    /**
+     * Log all errors from the closure
+     */
+    public function log(\Closure $callback){
+        $log = NodeLog::create([
+            'fortles_node_structure_id' => $this->id,
+            'started_at' => Carbon::now()
+        ]);
+        try{
+            $callback($this->environment);
+        } catch (\Exception $exception){
+            $log->error = $exception->getMessage();
+        }finally{
+            $log->ended_at = Carbon::now();
+            $log->save();
         }
     }
 

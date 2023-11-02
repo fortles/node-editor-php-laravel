@@ -50,9 +50,9 @@ trait HasNodeStructure
      * @param string|null $name
      * @return mixed
      */
-    public function runNode(string $name = null)
+    public function runNode(bool $shouldLog = true)
     {
-        return $this->node_structure->run();
+        return $this->node_structure->run($shouldLog);
     }
 
     /**
@@ -60,5 +60,12 @@ trait HasNodeStructure
      */
     public function getNodeStructureIdAttribute(): int{
         return $this->node_structure->id;
+    }
+
+    /**
+     * Log all errors from the closure
+     */
+    public function logNodeExecution(\Closure $callback){
+        $this->node_structure->log($callback);
     }
 }
