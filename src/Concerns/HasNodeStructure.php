@@ -6,6 +6,7 @@ use Fortles\NodeEditor\NodeEnvironment;
 
 /**
  * @property NodeEnvironment $node_environment
+ * @property NodeStructure $node_structure
  */
 
 trait HasNodeStructure

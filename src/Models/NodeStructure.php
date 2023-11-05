@@ -42,6 +42,7 @@ class NodeStructure extends Model
 
     /**
      * Log all errors from the closure
+     * @param \Closure(NodeEnvironment, NodeLog) $callback
      */
     public function log(\Closure $callback){
         $log = NodeLog::create([
@@ -49,7 +50,7 @@ class NodeStructure extends Model
             'started_at' => Carbon::now()
         ]);
         try{
-            $callback($this->environment);
+            $callback($this->environment, $log);
         } catch (\Exception $exception){
             $log->error = $exception->getMessage();
         }finally{

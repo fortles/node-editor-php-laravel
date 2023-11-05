@@ -15,6 +15,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('fortles_node_structure_id')->constrained();
             $table->text('error')->nullable();
+            $table->integer('created')->unsigned()->default(0);
+            $table->integer('updated')->unsigned()->default(0);
+            $table->integer('deleted')->unsigned()->default(0);
+            $table->integer('skipped')->unsigned()->default(0);
             $table->dateTime('started_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->dateTime('ended_at')->nullable();
         });

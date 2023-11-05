@@ -5,12 +5,30 @@ namespace Fortles\LaravelNodeEditor\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 
+/**
+ * Log of a run
+ * @param int $created How many records are created
+ * @param int $updated How many records are updated
+ * @param int $deleted How many records are deleted
+ * @param int $skipped How many records are skipped
+ * @param int $fortles_node_structure_id
+ * @param string $error
+ * 
+ * @param NodeStructure $node_structure
+ * @param NodeLogStatus $status
+ */
+
 class NodeLog extends Model
 {
     protected $table = 'fortles_node_logs';
 
     protected $fillable = [
-        'fortles_node_structure_id', 'error',
+        'fortles_node_structure_id', 
+		'created',
+		'updated',
+		'deleted',
+		'skipped',
+		'error',
     ];
 
     public $timestamps = false;
